@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Web Application Test Feature Flag</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/w/bs4-4.1.1/jq-3.3.1/dt-1.10.18/datatables.min.css"/>
+    <script type="text/javascript"
+            src="https://cdn.datatables.net/w/bs4-4.1.1/jq-3.3.1/dt-1.10.18/datatables.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h2>Default Value</h2>
+    {% for feature_flag in feature_flags %}
+        {% for flag in feature_flag.flags %}
+        <div class="row">
+            {{feature_flag.app_host}} - {{flag.feature_name}}, State: {{flag.feature_enabled}}
+        </div>
+        {% endfor %}
+    {% endfor %}
+</div>
+<div class="container">
+    <h2>Logs Tests</h2>
+    <table id="table_logs" class="display" style="width:100%">
+        <thead>
+        <tr>
+            <th>DataTime</th>
+            <th>Correct</th>
+            <th>Feature name</th>
+            <th>Application name</th>
+            <th>Host</th>
+        </tr>
+        </thead>
+    </table>
+</div>
+</body>
+<!-- scripts -->
+<script>
+function setupData() {
+    $(document).ready(function () {
+        $('#table_logs').DataTable({
+        "ajax": {
+            url: '/logs',
+            type: 'GET',
+            contentType: 'application/json',
+            dataSrc: '',
+
+        },
+        'ordering': false,
+        'searching': false,
+        'processing': true,
+        'serverSide': false,
+        'bPaginate': false,
+        'columns': [
+            {'data': 'date'},
+            {"data": "correct"},
+            {"data": "feature_name"},
+            {"data": "application_name"},
+            {"data": "grpc_host"}
+        ],
+    });
+    });
+
+}
+$( window ).on( "load", setupData );
+
+</script>
+</html>

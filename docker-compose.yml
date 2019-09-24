@@ -1,0 +1,14 @@
+version: '3.7'
+services:
+  web_dev:
+    image: solonko/test-feature-flag:latest
+    ports:
+      - "5000:5000"
+    links:
+      - mongo
+    environment:
+      - DB_MONGO_URL=mongodb://mongo:27017/
+  mongo:
+    image: mongo:latest
+    ports:
+      - 27017:27017

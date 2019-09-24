@@ -1,0 +1,75 @@
+﻿syntax = "proto3";
+
+import "google/protobuf/wrappers.proto";
+import "types.proto";
+
+package videa.featureflag.services.types.stationgroup;
+
+option csharp_namespace = "Videa.FeatureFlag.Services.Types.StationGroup";
+
+// * 1.0.0 - Initial contract implementation
+option (version) = "1.0.0";
+
+/*
+The Feature Flag Service provides methods to get station groups feature flag values
+
+Authentication
+^^^^^^^^^^^^^^
+Please provide a valid ``api_key`` parameter in gRPC service metadata for ``SetFeatureFlag`` and ``DeleteFeatureFlag`` method, otherwise the service will return ``Unauthenticated`` response.
+*/ 
+service StationGroupFeatureFlagService {
+  // Gets Feature Flag information
+  rpc GetFeatureFlag(GetFeatureFlagRequest) returns (GetFeatureFlagResponse);
+
+  // Updates feature flag
+  rpc SetFeatureFlag(SetFeatureFlagRequest) returns (SetFeatureFlagResponse);
+
+  // Delete a feature flag for a given application name
+  rpc DeleteFeatureFlag(DeleteFeatureFlagRequest) returns (DeleteFeatureFlagResponse);
+
+  // Set feature flag for multiple station groups
+  rpc SetFeatureFlagForStationGroups(SetFeatureFlagForStationGroupsRequest) returns (SetFeatureFlagForStationGroupsResponse);
+}
+
+message SetFeatureFlagRequest {
+	string station_group_external_id = 1;
+	string application_name = 2;
+	string feature_name = 3;
+	bool feature_enabled = 4;
+}
+
+message SetFeatureFlagResponse {
+}
+
+message GetFeatureFlagRequest {
+	string station_group_external_id = 1;
+	string application_name = 2;
+	string feature_name = 3;
+}
+
+message GetFeatureFlagResponse {
+	string feature_flag_external_id = 1;
+	bool feature_enabled = 2;
+}
+
+// Delete feature flag request message
+message DeleteFeatureFlagRequest {
+	string feature_name = 1;
+	string application_name = 2;
+  // this parameter is optional to support deleting one feature flag for all station groups
+	google.protobuf.StringValue station_group_external_id = 3;
+}
+
+// Delete feature flag response message
+message DeleteFeatureFlagResponse {
+}
+
+message SetFeatureFlagForStationGroupsRequest {
+	repeated string station_group_external_ids = 1;
+	string application_name = 2;
+	string feature_name = 3;
+	bool feature_enabled = 4;
+}
+
+message SetFeatureFlagForStationGroupsResponse {
+}
