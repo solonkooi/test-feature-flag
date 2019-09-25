@@ -1,6 +1,6 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from pymongo import MongoClient
-from configuration.config import get_config_logger
+from configuration.config import *
 from configuration.logger_messages import *
 from featureFlagClient.featureFlagClient import get_grpc_clients, FeatureFlagClient
 from testFeatureFlag.featureFlagDefaultValue import get_list_FeatureFlagDefaultValue, FeatureFlagDefaultValue
@@ -8,7 +8,7 @@ from testFeatureFlag.logTestFeatureFlagModel import getTestFeatureFlagModel
 
 
 logger = get_config_logger()
-collectionLogs = MongoClient("mongo:27017")['test-feature-flag']['logs']
+collectionLogs = MongoClient(get_mongodb_host(), get_mongodb_port())['test-feature-flag']['logs']
 
 
 def runBackgroundScheduler(scheduler: BackgroundScheduler, minutes: int):

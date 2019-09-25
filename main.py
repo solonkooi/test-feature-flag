@@ -1,9 +1,8 @@
 import atexit
 import json
-
 from apscheduler.schedulers.background import BackgroundScheduler
 from bson import json_util
-from flask import Flask, render_template, make_response
+from flask import Flask, render_template, make_response, send_from_directory
 from pymongo import MongoClient
 from pytz import utc
 from configuration.config import *
@@ -13,10 +12,15 @@ from testFeatureFlag.featureFlagDefaultValue import get_list_FeatureFlagDefaultV
 from testFeatureFlag.testFeatureFlagScheduler import runBackgroundScheduler
 
 app = Flask(__name__)
-client = MongoClient("mongo:27017")
+client = MongoClient(get_mongodb_host(), get_mongodb_port())
 db = client['test-feature-flag']
 collectionLogs = db['logs']
 scheduler = BackgroundScheduler(timezone=utc)
+
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(app.root_path, 'favicon.ico')
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -26,23 +30,18 @@ def index():
     feature_flags = []
     for clientFeatureFlag in clients:
         for defaultValue in default_values:
-            try:
-                response_service = clientFeatureFlag.get_feature_flag(defaultValue.application_name,
-                                                                      defaultValue.feature_name)
-            except:
-                response_service = None
-
-            if response_service is not None:
-                feature_flags.append(
-                    {
-                        'app_host': clientFeatureFlag.feature_flag_host,
-                        'flags': [
-                            FeatureFlagModel(defaultValue.feature_name,
-                                             defaultValue.application_name,
-                                             response_service.feature_enabled),
-                        ]
-                    }
-                )
+            response_service = clientFeatureFlag.get_feature_flag(defaultValue.application_name,
+                                                                  defaultValue.feature_name)
+            feature_flags.append(
+                {
+                    'app_host': clientFeatureFlag.feature_flag_host,
+                    'flags': [
+                        FeatureFlagModel(defaultValue.feature_name,
+                                         defaultValue.application_name,
+                                         response_service.feature_enabled),
+                    ]
+                }
+            )
     return render_template('index.html', feature_flags=feature_flags)
 
 
