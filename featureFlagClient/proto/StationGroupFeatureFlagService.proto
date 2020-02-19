@@ -3,9 +3,9 @@
 import "google/protobuf/wrappers.proto";
 import "types.proto";
 
-package videa.featureflag.services.types.stationgroup;
+package featureflag.services.types.stationgroup;
 
-option csharp_namespace = "Videa.FeatureFlag.Services.Types.StationGroup";
+option csharp_namespace = "FeatureFlag.Services.Types.StationGroup";
 
 // * 1.0.0 - Initial contract implementation
 option (version) = "1.0.0";

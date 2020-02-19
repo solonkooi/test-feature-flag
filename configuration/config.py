@@ -2,9 +2,9 @@ import logging
 import os
 from logging import Logger
 
-grpc_host_sales = 'featureflag-service-sales.tcp.qa1.qa.eks.videa.io:31380'
-grpc_host_alpha = 'featureflag-service.tcp.alpha.qa.eks.videa.io:31380'
-grpc_host_default = 'featureflag-service-sales.tcp.qa1.qa.eks.videa.io:31380'
+grpc_host_sales = 'featureflag-service:31380'
+grpc_host_alpha = 'featureflag-service:31380'
+grpc_host_default = 'featureflag-service:31380'
 
 web_test_feature_flag_host = '0.0.0.0'
 web_test_feature_flag_port: int = 5001

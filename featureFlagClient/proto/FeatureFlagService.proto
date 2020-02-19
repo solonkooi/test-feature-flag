@@ -3,9 +3,9 @@
 import "google/protobuf/wrappers.proto";
 import "types.proto";
 
-package videa.featureflag.services.types;
+package featureflag.services.types;
 
-option csharp_namespace = "Videa.FeatureFlag.Services.Types";
+option csharp_namespace = "FeatureFlag.Services.Types";
 
 // * 1.0.0 - Initial contract implementation
 // * 1.1.0 - Support authentication for SetFeatureFlag method

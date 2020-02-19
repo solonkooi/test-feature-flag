@@ -6,4 +6,4 @@ extend google.protobuf.FileOptions {
     string version = 50000;
 }
 
-package videa.featureflag.services.types;
+package featureflag.services.types;

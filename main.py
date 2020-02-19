@@ -20,7 +20,7 @@ scheduler = BackgroundScheduler(timezone=utc)
 
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory(app.root_path, 'favicon.ico')
+    return send_from_directory(app.root_path, 'favicon-ox.png')
 
 
 @app.route('/', methods=['GET', 'POST'])
